@@ -3,9 +3,10 @@ import SelecionarIngredientes from './SelecionarIngredientes.vue'
 import Tag from '@/components/Tag.vue'
 import SuaLista from '@/components/SuaLista.vue';
 export default {
+  emits: ['adicionarIngredientes', 'removerIngredientes'],
   data(){
         return {
-            ingredientes: ['Alho', 'Manteiga', 'Orégano']
+            ingredientes: [] as string[]
         }
     },
 
@@ -13,13 +14,25 @@ export default {
         SelecionarIngredientes,
         Tag,
         SuaLista
+    },
+
+    methods: {
+      adicionarIngrediente(ingrediente: string){
+        this.ingredientes.push(ingrediente)
+      },
+
+      removerIngrediente(ingrediente: string){
+        this.ingredientes =this.ingredientes.filter(iLista => ingrediente !== iLista)
+      }
     }
 }
 </script>
 <template>
     <main class="conteudo-principal">
         <SuaLista :ingredientes="ingredientes"/>
-        <SelecionarIngredientes/>
+        <SelecionarIngredientes
+        @adicionar-ingrediente="adicionarIngrediente($event)"
+        @remover-ingrediente="removerIngrediente($event)"/>
     </main>
 </template>
 
